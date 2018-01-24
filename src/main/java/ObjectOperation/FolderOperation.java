@@ -18,12 +18,10 @@ import common.RGWClient;
 public class FolderOperation {
 	
 	private static final String SUFFIX = "/";
-//	static final String ACCESS_KEY = "*********";
-//	static final String SECRET_KEY = "*********";
-//	static final String endpoint = "*********"; 
-	static final String ACCESS_KEY = "633FP5V4V3HI31O9D9PH";
-	static final String SECRET_KEY = "DWLsoZOY9d1Jwee72jAsndLmhYXxzSzMwL1LKAoN";
-	static final String endpoint = "http://cos.iflytek.com"; 
+	static final String ACCESS_KEY = "*********";
+	static final String SECRET_KEY = "*********";
+	static final String endpoint = "*********"; 
+
 	public static void main(String[] args) {
 		
 		RGWClient	client = new RGWClient(ACCESS_KEY, SECRET_KEY, endpoint);
