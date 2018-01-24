@@ -1,4 +1,4 @@
-package Bucket;
+package BucketOperation;
 
 import java.util.List;
 
@@ -21,9 +21,13 @@ import common.RGWClient;
  */
 public class ListObjects {
 
-	static final String ACCESS_KEY = "*********";
-	static final String SECRET_KEY = "*********";
-	static final String endpoint = "*********"; 
+//	static final String ACCESS_KEY = "*********";
+//	static final String SECRET_KEY = "*********";
+//	static final String endpoint = "*********"; 
+	
+	static final String ACCESS_KEY = "633FP5V4V3HI31O9D9PH";
+	static final String SECRET_KEY = "DWLsoZOY9d1Jwee72jAsndLmhYXxzSzMwL1LKAoN";
+	static final String endpoint = "http://cos.iflytek.com"; 
 	
 	public static void main(String[] args) {
 		final String USAGE = "\n" +
@@ -31,15 +35,16 @@ public class ListObjects {
 	            "list all the objects .\n" +
 	            "\n" +
 	            "Ex: ListObjects <bucketname>\n";
-
+ /*        
          if (args.length < 1) {
 	       System.out.println(USAGE);
 	       System.exit(1);
          }
+         */
 		 RGWClient	client = new RGWClient(ACCESS_KEY, SECRET_KEY, endpoint);
 	     AmazonS3 s3 = client.createConnect();
 	    	
-	     String bucket_name = "testUpload";
+	     String bucket_name = "javatutorial-net-example-bucket";
 	     boolean flag = s3.doesBucketExistV2(bucket_name);// 查询bucket是否存在1
          
 		 if (flag) {

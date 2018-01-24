@@ -21,6 +21,7 @@ import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration;
+import com.amazonaws.retry.PredefinedRetryPolicies;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -79,6 +80,8 @@ public class RGWClient {
 	        clientConf.setProtocol(Protocol.HTTP);
 	        clientConf.withUseExpectContinue(false);
 	        clientConf.withSignerOverride("S3SignerType");
+	        clientConf.setRetryPolicy(
+	    			PredefinedRetryPolicies.getDefaultRetryPolicyWithCustomMaxRetries(5));
 	       	//build the connection  
 	        AmazonS3ClientBuilder standard = AmazonS3ClientBuilder.standard();
 			AWSCredentialsProvider credentialsProvider= new AWSStaticCredentialsProvider(credentials);

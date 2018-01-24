@@ -1,6 +1,6 @@
 all: target/aws-s3-examples-1.0.jar
 
-target/aws-s3-examples-1.0.jar: src/main/java/aws/example/s3/*.java
+target/aws-s3-examples-1.0.jar: src/main/java/*.java
 	mvn package
 
 clean:

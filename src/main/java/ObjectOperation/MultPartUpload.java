@@ -1,4 +1,4 @@
-package PutApi;
+package ObjectOperation;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.TransferManagerConfiguration;
@@ -22,11 +22,16 @@ import com.amazonaws.services.s3.model.*;
  * 
  *  Class Name: MultPartUpload.java
  *  Function: 
- *  The Multipart upload API enables you to upload large objects in parts. You can use this API to upload new large objects 
- *  PART_SIZE was set to 5M.  if object.size < 10M , upload object as a whole , else  The object is divided into 5M pieces 
+ *  使用高级接口分段上传 API
+ *  Use threads to upload large size files
+ *  As Big Data grows in popularity, it becomes more important to move large data sets to and from Amazon S3.
+ *  You can improve the speed of uploads by parallelizing them. 
+ *  You can break an individual file into multiple parts and upload those parts in parallel 
+ *  by using TransferManager High API
+ *  The Multipart upload API enables you to upload large objects in parts. 
+ *  You can use this API to upload new large objects 
  *  
- *     Modifications:   
- *  
+ * 
  *  @author chen  DateTime 2018年1月17日 上午10:24
  *  @version 1.0
  */
@@ -64,13 +69,17 @@ public class MultPartUpload {
     	AmazonS3 conn = client.createConnect();
 
         //Configure about the TransferManger to control your upload.
+    	//When we create the TransferManager, we give it an execution pool of 15 threads. 
+    	//By default, the TransferManager creates a pool of 10,but you can set this to scale the pool size.
+    	//MultipartUploadThreshold defines the size at which the AWS SDK for Java should start breaking apart the files (in this case, 5 MiB).
+    	///MinimumUploadPartSize defines the minimum size of each part. It must be at least 5 MiB; otherwise, you will get an error when you try to upload it.
         TransferManager tm = TransferManagerBuilder.standard()
-    	        .withExecutorFactory(() -> Executors.newFixedThreadPool(100))
+    	        .withExecutorFactory(() -> Executors.newFixedThreadPool(15))
     	        .withMinimumUploadPartSize(UPLOAD_PART_SIZE)
     	        .withMultipartUploadThreshold( (long) multipartUploadThreshold)
     	        .withS3Client(conn)
     	        .build();
-    
+        //PART_SIZE was set to 5M.  if object.size < 10M , upload object as a whole , else  The object is divided into 5M pieces 
         System.out.println("Hello");
         long startTime=System.nanoTime();   //获取开始时间  
         InputStream inputStream = new FileInputStream(file);
@@ -91,7 +100,7 @@ public class MultPartUpload {
 
             long endTime=System.nanoTime(); //获取结束时间  
 
-            System.out.println("程序运行时间： "+(endTime-startTime)+"ns");  
+            System.out.println("run time： "+(endTime-startTime)+"ns");  
         } catch (AmazonClientException amazonClientException) {
             System.out.println("Unable to upload file, upload was aborted.");
             amazonClientException.printStackTrace();

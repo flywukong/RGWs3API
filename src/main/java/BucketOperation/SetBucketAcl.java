@@ -1,4 +1,4 @@
-package Bucket;
+package BucketOperation;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
